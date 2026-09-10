@@ -4,10 +4,13 @@ interface Props {
   projects:Project[]
   activeId:string
   open:boolean
+  collapsed:boolean
   onSelect:(id:string)=>void
   onCreate:()=>void
   onDelete:(id:string)=>void
   onClose:()=>void
+  onCollapse:()=>void
+  onExpand:()=>void
 }
 
 function shortType(project:Project){
@@ -16,12 +19,14 @@ function shortType(project:Project){
   return '1'
 }
 
-export function ProjectSidebar({projects,activeId,open,onSelect,onCreate,onDelete,onClose}:Props){
+export function ProjectSidebar({projects,activeId,open,collapsed,onSelect,onCreate,onDelete,onClose,onCollapse,onExpand}:Props){
   return <>
+    {collapsed&&<button className="sidebar-expand" type="button" onClick={onExpand}><span>›</span> Abrir projetos</button>}
     <div className={`sidebar-backdrop ${open?'is-visible':''}`} onClick={onClose} aria-hidden="true" />
-    <aside className={`project-sidebar ${open?'is-open':''}`} aria-label="Árvore de projetos">
+    <aside className={`project-sidebar ${open?'is-open':''} ${collapsed?'is-collapsed':''}`} aria-label="Árvore de projetos">
       <div className="sidebar-heading">
         <div><span className="eyebrow">Área de trabalho</span><h2>Projetos</h2></div>
+        <button className="collapse-sidebar-button" type="button" onClick={onCollapse}><span>‹</span> Recolher</button>
         <button className="icon-button sidebar-close" type="button" onClick={onClose} aria-label="Fechar árvore de projetos">×</button>
       </div>
       <button className="new-project-button" type="button" onClick={onCreate}><span>＋</span> Novo projeto</button>

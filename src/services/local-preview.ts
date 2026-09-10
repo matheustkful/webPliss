@@ -47,3 +47,32 @@ export function downloadProject(project:Project) {
   link.remove()
   URL.revokeObjectURL(href)
 }
+
+export function downloadMemorial(project:Project, preview:LocalPreview|null) {
+  const geometry=preview?.geometry
+  const lines=[
+    `# Memorial descritivo — ${project.name}`,
+    '',
+    `Tipo: ${project.kind}`,
+    `Atualizado em: ${new Date().toLocaleString('pt-BR')}`,
+    '',
+    '## Dados de entrada',
+    '```json',
+    JSON.stringify(project.input,null,2),
+    '```',
+    '',
+    '## Prévia geométrica',
+    geometry ? `- Projeção horizontal: ${geometry.horizontalRunM.toFixed(2)} m\n- Altura total: ${geometry.totalRiseM.toFixed(2)} m\n- Comprimento inclinado: ${geometry.inclinedLengthM.toFixed(2)} m\n- Espelhos: ${geometry.stepCount}` : 'A prévia ainda não foi atualizada.',
+    '',
+    'Este arquivo é uma prévia local. O dimensionamento estrutural definitivo deve ser emitido pelo motor de cálculo.',
+  ]
+  const blob=new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'})
+  const href=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=href
+  link.download=`${project.name.replace(/[^\p{L}\p{N}_-]+/gu,'-').replace(/^-|-$/g,'')||'projeto-escada'}-memorial.md`
+  document.body.append(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(href)
+}

@@ -1,6 +1,8 @@
 # webPliss
 
-Interface web da WebCivil para dimensionamento e detalhamento de estruturas.
+Interface visual da WebCivil para escadas. O protótipo atual funciona sem
+chamadas de API: a prévia geométrica e o download da configuração JSON são
+executados diretamente no navegador.
 
 ## Desenvolvimento
 
@@ -9,4 +11,6 @@ npm install
 npm run dev
 ```
 
-Copie `.env.example` para `.env.local` se a API não estiver disponível pelo proxy do Vite.
+O build produzido pelo Vite pode ser publicado no GitHub Pages. O fluxo de
+publicação está em `.github/workflows/publicar-pages.yml` e usa caminhos
+relativos, compatíveis com a página do projeto.

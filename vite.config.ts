@@ -3,5 +3,8 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 5173, proxy: { '/api': { target: 'https://localhost:7157', changeOrigin: true, secure: false } } },
+  // Caminhos relativos permitem publicar o build tanto na raiz quanto em
+  // https://<usuario>.github.io/webPLiss/ sem procurar /src/main.tsx na raiz do domínio.
+  base: './',
+  server: { port: 5173 },
 })

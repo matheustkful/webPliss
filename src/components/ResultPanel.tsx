@@ -1,3 +1,17 @@
-import type { StraightStairAnalysis } from '../types/stair'
+import type { LocalPreview } from '../types/stair'
+
 const number=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2,minimumFractionDigits:2})
-export function ResultPanel({result}:{result:StraightStairAnalysis}) {const r=result.reinforcement;return <section className="results" aria-live="polite"><div className="section-title"><div><span className="eyebrow">Dimensionamento concluído</span><h2>Resumo estrutural</h2></div><span className={`status ${r.neutralAxisWithinLimit?'success':'warning'}`}>{r.neutralAxisWithinLimit?'Seção verificada':'Revisão necessária'}</span></div><div className="metric-grid"><article><span>Momento máximo</span><strong>{number.format(result.forces.maximumMomentKnM)}</strong><small>kN·m/m</small></article><article><span>Cortante máximo</span><strong>{number.format(result.forces.maximumShearKn)}</strong><small>kN/m</small></article><article><span>Armadura principal</span><strong>{number.format(r.adoptedMainAreaCm2PerM)}</strong><small>cm²/m</small></article><article><span>Espaçamento principal</span><strong>{number.format(r.mainBarSpacingCm)}</strong><small>cm</small></article></div><div className="result-details"><div><span>Carga de cálculo</span><strong>{number.format(result.loads.designLoadKnM2)} kN/m²</strong></div><div><span>Armadura de distribuição</span><strong>{number.format(r.distributionAreaCm2PerM)} cm²/m</strong></div><div><span>Espaçamento de distribuição</span><strong>{number.format(r.distributionBarSpacingCm)} cm</strong></div><div><span>βx</span><strong>{number.format(r.neutralAxisRatio)}</strong></div></div><div className="notice">{result.warnings[0]}</div></section>}
+
+export function ResultPanel({preview}:{preview:LocalPreview}) {
+  const geometry=preview.geometry
+  return <section className="results" aria-live="polite">
+    <div className="section-title"><div><span className="eyebrow">Prévia local</span><h2>Resumo geométrico</h2></div><span className="status success">Interface funcionando</span></div>
+    <div className="metric-grid">
+      <article><span>Projeção horizontal</span><strong>{number.format(geometry.horizontalRunM)}</strong><small>m</small></article>
+      <article><span>Altura total</span><strong>{number.format(geometry.totalRiseM)}</strong><small>m</small></article>
+      <article><span>Comprimento inclinado</span><strong>{number.format(geometry.inclinedLengthM)}</strong><small>m</small></article>
+      <article><span>Espelhos</span><strong>{geometry.stepCount}</strong><small>unidades</small></article>
+    </div>
+    <div className="notice">Esta é uma prévia calculada no navegador para demonstrar o layout. O dimensionamento estrutural, o DXF e o GLB serão conectados manualmente em uma etapa futura.</div>
+  </section>
+}

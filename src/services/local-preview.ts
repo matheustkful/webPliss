@@ -1,4 +1,4 @@
-import type { AutoportanteLRequest, AutoportanteURequest, LocalPreview, Project, StairKind, StraightStairRequest } from '../types/stair'
+import { stairKindLabels, type AutoportanteLRequest, type AutoportanteURequest, type LocalPreview, type Project, type StairKind, type StraightStairRequest } from '../types/stair'
 
 export function createLocalPreview(kind:StairKind,input:StraightStairRequest|AutoportanteURequest|AutoportanteLRequest):LocalPreview {
   let horizontalRunM=0
@@ -53,7 +53,7 @@ export function downloadMemorial(project:Project, preview:LocalPreview|null) {
   const lines=[
     `# Memorial descritivo — ${project.name}`,
     '',
-    `Tipo: ${project.kind}`,
+    `Tipo: ${stairKindLabels[project.kind]}`,
     `Atualizado em: ${new Date().toLocaleString('pt-BR')}`,
     '',
     '## Dados de entrada',

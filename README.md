@@ -1,8 +1,11 @@
 # webPliss
 
 Interface visual da WebCivil para escadas. O protótipo atual funciona sem
-chamadas de API: a prévia geométrica e o download da configuração JSON são
-executados diretamente no navegador.
+chamadas de API: a árvore de projetos, a prévia geométrica e o download da
+configuração JSON são executados diretamente no navegador. Os projetos ficam
+salvos no armazenamento local do navegador.
+
+O layout inclui escadas de um lance, autoportantes em U e autoportantes em L.
 
 ## Desenvolvimento
 

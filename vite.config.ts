@@ -6,5 +6,6 @@ export default defineConfig({
   // Caminhos relativos permitem publicar o build tanto na raiz quanto em
   // https://<usuario>.github.io/webPLiss/ sem procurar /src/main.tsx na raiz do domínio.
   base: './',
+  build: { rollupOptions: { input: { index: 'source-index.html' } } },
   server: { port: 5173 },
 })

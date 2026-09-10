@@ -5,12 +5,14 @@ interface Props {
   activeId:string
   open:boolean
   collapsed:boolean
+  isDirty:boolean
   onSelect:(id:string)=>void
   onCreate:()=>void
   onDelete:(id:string)=>void
   onClose:()=>void
   onCollapse:()=>void
   onExpand:()=>void
+  onSave:()=>void
 }
 
 function shortType(project:Project){
@@ -19,7 +21,7 @@ function shortType(project:Project){
   return '1'
 }
 
-export function ProjectSidebar({projects,activeId,open,collapsed,onSelect,onCreate,onDelete,onClose,onCollapse,onExpand}:Props){
+export function ProjectSidebar({projects,activeId,open,collapsed,isDirty,onSelect,onCreate,onDelete,onClose,onCollapse,onExpand,onSave}:Props){
   return <>
     {collapsed&&<button className="sidebar-expand" type="button" onClick={onExpand}><span>›</span> Abrir projetos</button>}
     <div className={`sidebar-backdrop ${open?'is-visible':''}`} onClick={onClose} aria-hidden="true" />
@@ -30,6 +32,7 @@ export function ProjectSidebar({projects,activeId,open,collapsed,onSelect,onCrea
         <button className="icon-button sidebar-close" type="button" onClick={onClose} aria-label="Fechar árvore de projetos">×</button>
       </div>
       <button className="new-project-button" type="button" onClick={onCreate}><span>＋</span> Novo projeto</button>
+      <button className={`sidebar-save-button ${isDirty?'has-changes':''}`} type="button" onClick={onSave}><span>{isDirty?'↓':'✓'}</span> {isDirty?'Salvar projeto':'Projeto salvo'}</button>
       <div className="tree-root">
         <div className="tree-root-label"><span className="tree-chevron">⌄</span><span className="tree-folder">◆</span><strong>WebPliss</strong><span className="project-count">{projects.length}</span></div>
         <div className="project-list" role="list">

@@ -21,6 +21,7 @@ function MaterialFields({input,update}:{input:StairInput;update:(name:string,val
     <NumberField label="Bitola principal" name="mainBarDiameterMm" value={input.mainBarDiameterMm} unit="mm" min={4} step={.1} onChange={update}/>
     <NumberField label="Bitola de distribuição" name="distributionBarDiameterMm" value={input.distributionBarDiameterMm} unit="mm" min={4} step={.1} onChange={update}/>
     {'support' in input&&<SelectField label="Condição de apoio" value={input.support} onChange={value=>update('support',value)} options={[{value:'SimplySupported',label:'Biapoiada'},{value:'FixedBothEnds',label:'Biengastada'}]}/>}
+    {'disposicaoArmadura' in input&&<SelectField label="Detalhamento da armadura" value={input.disposicaoArmadura} onChange={value=>update('disposicaoArmadura',value)} options={[{value:'Continua',label:'Armadura contínua'},{value:'Estribos',label:'Armadura em estribos'}]}/>}
   </div></section>
 }
 

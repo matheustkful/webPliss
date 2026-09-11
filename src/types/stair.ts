@@ -1,5 +1,6 @@
 export type AggregateType = 'Basalt' | 'Granite' | 'Limestone' | 'Sandstone'
 export type SupportCondition = 'SimplySupported' | 'FixedBothEnds'
+export type DisposicaoArmadura = 'Continua' | 'Estribos'
 export type StairKind = 'UmLance' | 'AutoportanteU' | 'AutoportanteL'
 
 export const stairKindLabels:Record<StairKind,string>={
@@ -14,7 +15,7 @@ export interface StraightStairRequest {
   stairWidthCm:number; treadCm:number; riserCm:number; riserCount:number; waistThicknessCm:number
   concreteStrengthMpa:number; liveLoadKnM2:number; coverCm:number
   mainBarDiameterMm:number; distributionBarDiameterMm:number
-  aggregate:AggregateType; support:SupportCondition
+  aggregate:AggregateType; support:SupportCondition; disposicaoArmadura:DisposicaoArmadura
 }
 
 export interface AutoportanteURequest {

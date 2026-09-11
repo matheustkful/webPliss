@@ -7,7 +7,7 @@ export const initialStraightInput:StraightStairRequest={
   upperBeamWidthCm:20,upperBeamHeightCm:50,upperLandingLengthCm:100,
   stairWidthCm:120,treadCm:30,riserCm:18,riserCount:10,waistThicknessCm:15,
   concreteStrengthMpa:20,liveLoadKnM2:3,coverCm:2.5,mainBarDiameterMm:6.3,
-  distributionBarDiameterMm:5,aggregate:'Basalt',support:'SimplySupported',
+  distributionBarDiameterMm:5,aggregate:'Basalt',support:'SimplySupported',disposicaoArmadura:'Continua',
 }
 
 export const initialUInput:AutoportanteURequest={
@@ -43,7 +43,10 @@ export function loadProjects():Project[]{
     const saved=window.localStorage.getItem(storageKey)
     if(!saved) return demoProjects()
     const projects=JSON.parse(saved) as Project[]
-    return Array.isArray(projects)&&projects.length>0?projects:demoProjects()
+    if(!Array.isArray(projects)||projects.length===0) return demoProjects()
+    return projects.map(project=>project.kind==='UmLance' && !('disposicaoArmadura' in project.input)
+      ? {...project,input:{...project.input,disposicaoArmadura:'Continua'}}
+      : project)
   }catch{return demoProjects()}
 }
 

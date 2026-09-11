@@ -21,7 +21,8 @@ function PreviewShape({kind,input}:{kind:StairKind;input:StairInput}){
     const points=stepPoints(45,205,straight.treadCm*sx,-straight.riserCm*sy,count)
     const end=points.at(-1)?.split(',').map(Number)??[380,60]
     const outline=`${points.join(' ')} ${end[0]+straight.upperLandingLengthCm*.3},${end[1]} ${end[0]+straight.upperLandingLengthCm*.3},230 45,230`
-    return <><polygon points={outline} fill="url(#stairFill)"/><polyline points={points.join(' ')} fill="none" stroke="var(--brand)" strokeWidth="4" strokeLinejoin="round"/><circle cx="45" cy="205" r="7" fill="var(--navy)"/><circle cx={end[0]} cy={end[1]} r="7" fill="var(--navy)"/></>
+    const estribos=straight.disposicaoArmadura==='Estribos'&&Array.from({length:Math.max(0,Math.min(count-1,8))},(_,index)=>{const [x,y]=points[(index+1)*2]?.split(',').map(Number)??[0,0];return <line key={index} x1={x-4} y1={y-9} x2={x+4} y2={y+9} stroke="var(--navy)" strokeWidth="2"/>})
+    return <><polygon points={outline} fill="url(#stairFill)"/><polyline points={points.join(' ')} fill="none" stroke="var(--brand)" strokeWidth="4" strokeLinejoin="round"/>{estribos}<circle cx="45" cy="205" r="7" fill="var(--navy)"/><circle cx={end[0]} cy={end[1]} r="7" fill="var(--navy)"/></>
   }
   if(kind==='AutoportanteU'){
     const u=input as AutoportanteURequest
@@ -37,7 +38,7 @@ function PreviewShape({kind,input}:{kind:StairKind;input:StairInput}){
 
 export function StairPreview({kind,input}:Props){
   const label=stairKindLabels[kind]
-  const details=kind==='UmLance'?`${(input as StraightStairRequest).riserCount} espelhos · ${(input as StraightStairRequest).treadCm} × ${(input as StraightStairRequest).riserCm} cm`:kind==='AutoportanteU'?`${(input as AutoportanteURequest).lowerRiserCount+(input as AutoportanteURequest).upperRiserCount} espelhos · dois lances`:`${(input as AutoportanteLRequest).lowerRiserCount+(input as AutoportanteLRequest).upperRiserCount} espelhos · dois lances`
+  const details=kind==='UmLance'?`${(input as StraightStairRequest).riserCount} espelhos · ${(input as StraightStairRequest).treadCm} × ${(input as StraightStairRequest).riserCm} cm · ${(input as StraightStairRequest).disposicaoArmadura==='Estribos'?'estribos':'armadura contínua'}`:kind==='AutoportanteU'?`${(input as AutoportanteURequest).lowerRiserCount+(input as AutoportanteURequest).upperRiserCount} espelhos · dois lances`:`${(input as AutoportanteLRequest).lowerRiserCount+(input as AutoportanteLRequest).upperRiserCount} espelhos · dois lances`
   return <div className="preview" aria-label={`Prévia da geometria: ${label}`}>
     <div className="preview-heading"><div><span className="eyebrow">Prévia geométrica</span><strong>{details}</strong></div><span className="scale-tag">Esquemático</span></div>
     <svg viewBox="0 0 520 250" role="img" aria-label={`Elevação esquemática de ${label}`}><defs><linearGradient id="stairFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#dff2ff"/><stop offset="1" stopColor="#f6fbff"/></linearGradient></defs><PreviewShape kind={kind} input={input}/><line x1="30" y1="230" x2="490" y2="230" stroke="var(--border)" strokeWidth="2"/></svg>
